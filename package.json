@@ -1,0 +1,73 @@
+{
+  "name": "@sablier/subgraph",
+  "description": "Subgraph for the Sablier money streaming protocol",
+  "version": "1.0.0",
+  "author": {
+    "name": "Sablier",
+    "url": "https://sablier.finance"
+  },
+  "bugs": {
+    "url": "https://github.com/sablierhq/sablier-subgraph/issues"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0",
+    "@graphprotocol/graph-cli": "^0.23.0",
+    "@sablier/eslint-config": "^1.0.1",
+    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.6",
+    "mustache": "^4.2.0",
+    "pinst": "^2.1.6",
+    "prettier": "^2.4.1",
+    "shx": "^0.3.3",
+    "typescript": "^4.4.4"
+  },
+  "license": "LGPL-3.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sablierhq/sablier-subgraph.git"
+  },
+  "scripts": {
+    "build": "graph build --debug",
+    "clean": "shx rm -rf ./build ./src/types ./subgraph.yaml",
+    "codegen": "graph codegen --debug --output-dir src/types/",
+    "deploy": "graph deploy $SUBGRAPH --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy:arbitrum": "yarn prepare:arbitrum && SUBGRAPH=sablierhq/sablier-arbitrum yarn deploy",
+    "deploy:avalanche": "yarn prepare:avalanche && SUBGRAPH=sablierhq/sablier-avalanche yarn deploy",
+    "deploy:bsc": "yarn prepare:bsc && SUBGRAPH=sablierhq/sablier-bsc yarn deploy",
+    "deploy:goerli": "yarn prepare:goerli && SUBGRAPH=sablierhq/sablier-goerli yarn deploy",
+    "deploy:kovan": "yarn prepare:kovan && SUBGRAPH=sablierhq/sablier-kovan yarn deploy",
+    "deploy:mainnet": "yarn prepare:mainnet && SUBGRAPH=sablierhq/sablier yarn deploy",
+    "deploy:matic": "yarn prepare:matic && SUBGRAPH=sablierhq/sablier-matic yarn deploy",
+    "deploy:optimism": "yarn prepare:optimism && SUBGRAPH=sablierhq/sablier-optimism yarn deploy",
+    "deploy:rinkeby": "yarn prepare:rinkeby && SUBGRAPH=sablierhq/sablier-rinkeby yarn deploy",
+    "deploy:ropsten": "yarn prepare:ropsten && SUBGRAPH=sablierhq/sablier-ropsten yarn deploy",
+    "lint": "yarn lint:ts && yarn prettier:check",
+    "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore --ext .js,.ts .",
+    "postinstall": "husky install",
+    "prepare:arbitrum": "mustache ./networks/arbitrum.json ./templates/v1.1.0.yaml > subgraph.yaml",
+    "prepare:avalanche": "mustache ./networks/avalanche.json ./templates/v1.1.0.yaml > subgraph.yaml",
+    "prepare:bsc": "mustache ./networks/bsc.json ./templates/v1.1.0.yaml > subgraph.yaml",
+    "prepare:goerli": "mustache ./networks/goerli.json ./templates/v1.1.0.yaml > subgraph.yaml",
+    "prepare:kovan": "mustache ./networks/kovan.json ./templates/v1.1.0.yaml > subgraph.yaml",
+    "prepare:mainnet": "mustache ./networks/mainnet.json ./templates/v1.0.0-and-v1.1.0.yaml > subgraph.yaml",
+    "prepare:matic": "mustache ./networks/matic.json ./templates/v1.1.0.yaml > subgraph.yaml",
+    "prepare:optimism": "mustache ./networks/optimism.json ./templates/v1.1.0.yaml > subgraph.yaml",
+    "prepare:rinkeby": "mustache ./networks/rinkeby.json ./templates/v1.0.0-and-v1.1.0.yaml > subgraph.yaml",
+    "prepare:ropsten": "mustache ./networks/ropsten.json ./templates/v1.1.0.yaml > subgraph.yaml",
+    "prettier": "prettier --config ./.prettierrc.yaml --write \"**/*.{js,json,md,ts,yaml,yml}\"",
+    "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,ts,yaml,yml}\""
+  },
+  "dependencies": {
+    "@graphprotocol/graph-ts": "^0.29.1",
+    "@openzeppelin/contracts": "^4.8.1",
+    "axios": "^1.2.2",
+    "ethers": "^5.7.2"
+  }
+}

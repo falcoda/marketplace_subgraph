@@ -1,0 +1,61 @@
+specVersion: 0.0.4
+description: Sage Cellars Market place
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: SageMarket
+    network: fuji
+    source:
+      abi: SageMarket
+      address: "0xfE338767b84892eCF74Bade7a14E5bf3f6dd55D7"
+      startBlock: 18060937
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      abis:
+        - name: SageMarket
+          file: ./abis/sageMarket.json
+      entities:
+        - MarketItem
+        - Nft
+        - MarketTransaction
+      eventHandlers:
+        - event: CreateMarketItem(indexed uint256,indexed address,indexed uint256,address,uint256,bool)
+          handler: handleCreateMarketItem
+        - event: CreateMarketSale(indexed uint256,indexed address,indexed uint256,address,address,uint256,bool,uint256)
+          handler: handleCreateMarketSale
+        - event: CancelMarketItem(indexed uint256,indexed address,indexed uint256,address,bool)
+          handler: handleCancelMarketItem
+
+        
+      file: ./src/mappings/mappings.ts
+      language: wasm/assemblyscript
+  
+  - kind: ethereum/contract
+    name: IERC721
+    network: fuji
+    source:
+      abi: IERC721
+      startBlock: 18060937
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - transfer
+        - transaction
+        - account
+      abis:
+        - name: IERC721
+          file: ./abis/@openzeppelin/contracts/build/contracts/IERC721.json
+        - name: IERC721Metadata
+          file: ./abis/@openzeppelin/contracts/build/contracts/IERC721Metadata.json
+        - name: Contract721
+          file: ./abis/Contract721.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mappings/eip721/index.ts
+      
+features: ["ipfsOnEthereumContracts"]

@@ -1,0 +1,11 @@
+{
+  "network": "bsc",
+  "contracts": {
+    "sablier": {
+      "v1-1-0": {
+        "address": "0x1c97Fb929eE981B88dF60C2CFA701F233ac95C38",
+        "startBlock": 24154370
+      }
+    }
+  }
+}
